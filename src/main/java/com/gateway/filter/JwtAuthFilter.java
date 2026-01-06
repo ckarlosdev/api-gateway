@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class JwtAuthFilter implements WebFilter {
 
@@ -24,10 +23,13 @@ public class JwtAuthFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        if (exchange.getRequest().getMethod().name().equals("OPTIONS")) {
+            return chain.filter(exchange);
+        }
+
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("DEBUG: Header no encontrado o mal formado. Retornando sin autenticar.");
             return chain.filter(exchange);
         }
 
@@ -44,7 +46,11 @@ public class JwtAuthFilter implements WebFilter {
                 );
 
                 if (jwtService.isTokenValid(token, userDetails)) {
-                    System.out.println("DEBUG: Token VÁLIDO. Usuario: " + username);
+
+//                    ServerWebExchange modifiedExchange = exchange.mutate()
+//                            .request(r -> r.header("X-User-Name", username))
+//                            .build();
+
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
