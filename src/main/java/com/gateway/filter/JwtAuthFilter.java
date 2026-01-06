@@ -54,7 +54,7 @@ public class JwtAuthFilter implements WebFilter {
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-                    return chain.filter(exchange)
+                    return chain.filter(modifiedExchange)
                             .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authToken));
                 } else {
                     System.out.println("DEBUG: Token INVÁLIDO según isTokenValid().");
