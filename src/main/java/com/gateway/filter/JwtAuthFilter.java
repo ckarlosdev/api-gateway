@@ -47,9 +47,9 @@ public class JwtAuthFilter implements WebFilter {
 
                 if (jwtService.isTokenValid(token, userDetails)) {
 
-//                    ServerWebExchange modifiedExchange = exchange.mutate()
-//                            .request(r -> r.header("X-User-Name", username))
-//                            .build();
+                    ServerWebExchange modifiedExchange = exchange.mutate()
+                            .request(r -> r.header("X-User-Name", username))
+                            .build();
 
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
