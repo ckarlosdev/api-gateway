@@ -1,11 +1,10 @@
 package com.gateway.config;
 
-import com.gateway.filter.JwtAuthFilter;
-import com.gateway.service.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -16,16 +15,11 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@RequiredArgsConstructor
+@EnableWebFluxSecurity
 public class SecurityConfig {
 
     @Bean
-    public JwtAuthFilter jwtAuthFilter(JwtService jwtService) {
-        return new JwtAuthFilter(jwtService);
-    }
-
-    @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtAuthFilter jwtAuthFilter) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -36,15 +30,32 @@ public class SecurityConfig {
                         .pathMatchers("/api/auth/me").authenticated()
                         .anyExchange().authenticated()
                 )
-                .addFilterAt(jwtAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(Customizer.withDefaults())
+                )
                 .build();
     }
+
+//    @Bean
+//    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtAuthFilter jwtAuthFilter) {
+//        return http
+//                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .authorizeExchange(exchanges -> exchanges
+//                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
+//                        .pathMatchers("/api/auth/**").permitAll()
+//                        .pathMatchers("/api/v1/**").permitAll()
+//                        .pathMatchers("/api/auth/me").authenticated()
+//                        .anyExchange().authenticated()
+//                )
+//                .addFilterAt(jwtAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+//                .build();
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Usa OriginPatterns para permitir credenciales con tu dominio
         config.setAllowedOriginPatterns(List.of(
                 "https://ckarlosdev.github.io",
                 "http://localhost:5173",
