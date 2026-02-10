@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/api/auth/login", "/api/auth/register", "/api/auth/refresh", "/api/auth/revoke").permitAll()
                         .pathMatchers("/api/auth/me").authenticated()
-                        .pathMatchers("/api/v1/assignment/**", "/api/v1/assignments", "/api/v1/job", "/api/v1/employee").permitAll()
+                        .pathMatchers("/api/v1/assignment/**", "/api/v1/assignments", "/api/v1/job", "/api/v1/employee", "/api/v1/checklist/**").permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
                         .anyExchange().authenticated()
                 )
