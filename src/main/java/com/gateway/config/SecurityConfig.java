@@ -43,7 +43,7 @@ public class SecurityConfig {
                             "/api/v1/checklist/**", 
                             "/api/v1/equipment/**", 
                             "/api/v1/equipments",
-                            "/api/v1/photo/type/"
+                            "/api/v1/photo/**"
                         ).permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
                         .anyExchange().authenticated()
