@@ -45,7 +45,7 @@ public class SecurityConfig {
                             "/api/v1/equipments",
                             "/api/v1/photo/**"
                         ).permitAll()
-                        .requestMatchers(
+                        .pathMatchers(
                             "/api/v1/issues/**", 
                             "/api/v1/issue/**"
                         ).permitAll()
