@@ -45,6 +45,10 @@ public class SecurityConfig {
                             "/api/v1/equipments",
                             "/api/v1/photo/**"
                         ).permitAll()
+                        .requestMatchers(
+                            "/api/v1/issues/**", 
+                            "/api/v1/issue/**"
+                        ).permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
                         .anyExchange().authenticated()
                 )
