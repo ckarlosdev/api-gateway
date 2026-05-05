@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 "/api/v1/issue/**"
                         ).permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
+                        .pathMatchers("/api/v2/**").authenticated()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
