@@ -36,18 +36,18 @@ public class SecurityConfig {
                         .pathMatchers("/api/auth/login", "/api/auth/register", "/api/auth/refresh", "/api/auth/revoke").permitAll()
                         .pathMatchers("/api/auth/me").authenticated()
                         .pathMatchers(
-                            "/api/v1/assignment/**", 
-                            "/api/v1/assignments", 
-                            "/api/v1/job/**",
-                            "/api/v1/employee", 
-                            "/api/v1/checklist/**", 
-                            "/api/v1/equipment/**", 
-                            "/api/v1/equipments",
-                            "/api/v1/photo/**"
+                                "/api/v1/assignment/**",
+                                "/api/v1/assignments",
+                                "/api/v1/job/**",
+                                "/api/v1/employee",
+                                "/api/v1/checklist/**",
+                                "/api/v1/equipment/**",
+                                "/api/v1/equipments",
+                                "/api/v1/photo/**"
                         ).permitAll()
                         .pathMatchers(
-                            "/api/v1/issues/**", 
-                            "/api/v1/issue/**"
+                                "/api/v1/issues/**",
+                                "/api/v1/issue/**"
                         ).permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
                         .anyExchange().authenticated()
@@ -58,14 +58,12 @@ public class SecurityConfig {
                 .build();
     }
 
-
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         SecretKey key = new SecretKeySpec(keyBytes, "HmacSHA256");
         return NimbusReactiveJwtDecoder.withSecretKey(key).build();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
