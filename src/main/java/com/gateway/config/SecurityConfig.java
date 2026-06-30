@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 "/api/v1/issue/**"
                         ).permitAll()
                         .pathMatchers("/uploads/signatures/**").permitAll()
+                        .pathMatchers("/uploads/delay-log/signatures/**").permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
                         .pathMatchers("/api/v2/**").authenticated()
                         .anyExchange().authenticated()
