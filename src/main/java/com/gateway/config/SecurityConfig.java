@@ -33,8 +33,22 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
+                        .pathMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/api/v2/maintenance/v3/api-docs/**",
+                                "/api/v2/maintenance/v3/api-docs",
+                                "/api/v2/maintenance/swagger-ui/**",
+                                "/api/v2/maintenance/swagger-ui.html"
+                        ).permitAll()
+
+                        // --- 2. AUTENTICACIÓN Y AUTH ---
                         .pathMatchers("/api/auth/login", "/api/auth/register", "/api/auth/refresh", "/api/auth/revoke").permitAll()
                         .pathMatchers("/api/auth/me").authenticated()
+
+                        // --- 3. RECURSOS Y UPLOADS PÚBLICOS ---
                         .pathMatchers(
                                 "/api/v1/assignment/**",
                                 "/api/v1/assignments",
@@ -43,21 +57,14 @@ public class SecurityConfig {
                                 "/api/v1/checklist/**",
                                 "/api/v1/equipment/**",
                                 "/api/v1/equipments",
-                                "/api/v1/photo/**"
-                        ).permitAll()
-                        .pathMatchers(
+                                "/api/v1/photo/**",
                                 "/api/v1/issues/**",
-                                "/api/v1/issue/**"
+                                "/api/v1/issue/**",
+                                "/uploads/signatures/**",
+                                "/uploads/delay-log/signatures/**"
                         ).permitAll()
-                        .pathMatchers("/uploads/signatures/**").permitAll()
-                        .pathMatchers("/uploads/delay-log/signatures/**").permitAll()
-                        .pathMatchers("/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/webjars/**",
-                                "/api/v2/maintenance/v3/api-docs/**",
-                                "/api/v2/maintenance/swagger-ui/**",
-                                "/api/v2/maintenance/swagger-ui.html").permitAll()
+
+                        // --- 4. RUTAS PROTEGIDAS GENERALES ---
                         .pathMatchers("/api/v1/**").authenticated()
                         .pathMatchers("/api/v2/**").authenticated()
                         .anyExchange().authenticated()
