@@ -51,6 +51,13 @@ public class SecurityConfig {
                         ).permitAll()
                         .pathMatchers("/uploads/signatures/**").permitAll()
                         .pathMatchers("/uploads/delay-log/signatures/**").permitAll()
+                        .pathMatchers("/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/api/v2/maintenance/v3/api-docs/**",
+                                "/api/v2/maintenance/swagger-ui/**",
+                                "/api/v2/maintenance/swagger-ui.html").permitAll()
                         .pathMatchers("/api/v1/**").authenticated()
                         .pathMatchers("/api/v2/**").authenticated()
                         .anyExchange().authenticated()
