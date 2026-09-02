@@ -88,6 +88,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(List.of(
+                "https://hm-brandt.github.io",
                 "https://ckarlosdev.github.io",
                 "http://localhost:5173",
                 "https://oleo-soft.com"
