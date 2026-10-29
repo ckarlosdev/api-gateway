@@ -65,6 +65,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/v1/issue-reports", "/api/v1/issue-reports/**").permitAll()
 
+                        .pathMatchers(HttpMethod.POST, "/api/v2/maintenance/checklist").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/v2/maintenance/checklist/template/**").permitAll()
                         // --- 4. RUTAS PROTEGIDAS GENERALES ---
                         .pathMatchers("/api/v1/**").authenticated()
                         .pathMatchers("/api/v2/**").authenticated()
